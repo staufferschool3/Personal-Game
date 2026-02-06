@@ -112,7 +112,7 @@ def usr_commands(Usr_input):
             return ""
 
 # Monster Functions
-def Slime():
+def slime():
     global Enemy
     global Vit
     global Exp
@@ -235,7 +235,7 @@ print("Now let's try combat.")
 key = readchar.readchar()
 
 #First Combat
-Slime()
+slime()
 
 Confirmed = "y"
 usr_name()
@@ -252,7 +252,7 @@ while Confirmed == "y":
         Str = random.randint(3,5)
         Mp = random.randint(3,5)
 
-        Slime()
+        slime()
     elif Confirmed == "n":
         break   
 
