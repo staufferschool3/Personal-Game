@@ -155,7 +155,7 @@ while Usr_input != "Done":
 
 usr_name()
 print("Now let's try combat.")
-
+key = readchar.readchar()
 
 usr_name()
 key = readchar.readchar()
