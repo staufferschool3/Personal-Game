@@ -9,16 +9,20 @@ import readchar
 import random
 
 # Variable for later use
+Usr_level = 1
 Usr_name = ""
 Usr_race = ""
 Usr_input = ""
+Usr_attack = 0
+Weapon = 0
 
 # User stat variables
-Vit = 0
-Dex = 0
-Agil = 0
-Str = 0
-Mp = 0
+Vit = random.randint(10, 20)
+Dex = random.randint(3,15)
+Agil = random.randint(3,15)
+Str = random.randint(3,15)
+Mp = random.randint(3,15)
+Exp = 0
 
 # Monster Stats
 #   Slime
@@ -43,7 +47,7 @@ def usr_answer(Answer):
 # Clear screen and place name at top of screen
 def usr_name():
     clear()
-    print(f"\n\nRace: {Usr_race}  Name: {Usr_name}\n\n\n")
+    print(f"\n\nRace: {Usr_race}  Name: {Usr_name}  Level: {Usr_level}\n\n\n")
 
 # Show stats function
 def show_stats():
@@ -60,6 +64,14 @@ def show_stats():
 def show_commands():
     print("show_commands--Shows all user commands.")
     print("show_stats--Shows stat values. 'Stats are randomized.'")
+    print("attack--Attacks the enemy.")
+    print("pass_turn--Passes your turn.")
+
+# Attack phase
+def attack(Usr_input):
+    global Usr_attack
+    Usr_attack = Str + Weapon
+
 
 # User Command function
 def usr_commands(Usr_input):
@@ -68,17 +80,34 @@ def usr_commands(Usr_input):
             return show_stats()
         case "show_commands":
             return show_commands()
+        case "attack":
+            return attack()
+        case "pass_turn":
+            return pass_turn()
         case _:
             return ""
 
 # Monster Functions
 def Slime():
+    print("You encounterd a Slime.")
     global Vit
+    global Slime_Vit
+    global Exp
     while Slime_Vit > 0:
-        Slam = Vit - 2
+        Usr_input = input("What do you do: ")
+        usr_commands(Usr_input)
+        if Usr_input in ["attack", "pass_turn"]:
+            key = readchar.readchar()
+            Slam = Vit - 2
+            print("Slime used slam.")
+            key = readchar.readchar()
+        else:
+            pass
+    Exp = Exp + 3
 
-# Monster List
-#Monster = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad]
+# Monster encounter List
+#Monster_encounter = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad, Rest]
+#Rand_encounter = [8, 15, 5, 9, 5, 12, 3, 1, 2, 40]
 
 # Main code
 usr_name()
@@ -157,7 +186,8 @@ usr_name()
 print("Now let's try combat.")
 key = readchar.readchar()
 
-
+def first_combat():
+    slime()
 
 usr_name()
 key = readchar.readchar()
