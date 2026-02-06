@@ -15,39 +15,40 @@ Usr_race = ""
 Usr_input = ""
 Usr_attack = 0
 Weapon = 0
+Confirmed = ""
 
 # User stat variables
-Vit = random.randint(10, 20)
-Dex = random.randint(3,15)
-Agil = random.randint(3,15)
-Str = random.randint(3,15)
-Mp = random.randint(3,15)
+Vit = random.randint(6, 12)
+Dex = random.randint(3,5)
+Agil = random.randint(3,5)
+Str = random.randint(3,5)
+Mp = random.randint(3,5)
 Exp = 0
 
 # Monster Stats
 #   Slime
-Slime_Vit = 10
+Slime_vit = 10
 
 # Clear screen
 def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 # User yes or no input
-def usr_answer(Answer):
-    match Answer:
+def usr_answer(Usr_input):
+    match Usr_input:
         case "yes" | "Yes" | "YES" | "y" | "Y":
             return "y"
         case "no" | "No" | "NO" | "n" | "N":
             return "n"
         case _:
-            print(Answer, "is not a valid answer. Please use yes or no.\nPress button.")
+            print(Usr_input, "is not a valid answer. Please use yes or no.\nPress button.")
             key = readchar.readchar()
-            return "n"
+            return ""
         
 # Clear screen and place name at top of screen
 def usr_name():
     clear()
-    print(f"\n\nRace: {Usr_race}  Name: {Usr_name}  Level: {Usr_level}\n\n\n")
+    print(f"\n\nRace: {Usr_race}  Name: {Usr_name}  Level: {Usr_level}  Exp: {Exp}\n\n\n")
 
 # Show stats function
 def show_stats():
@@ -62,13 +63,13 @@ def show_stats():
 
 # Help function
 def show_commands():
-    print("show_commands--Shows all user commands.")
+    print("\n\nshow_commands--Shows all user commands.")
     print("show_stats--Shows stat values. 'Stats are randomized.'")
     print("attack--Attacks the enemy.")
     print("pass_turn--Passes your turn.")
 
 # Attack phase
-def attack(Usr_input):
+def attack():
     global Usr_attack
     Usr_attack = Str + Weapon
 
@@ -76,34 +77,55 @@ def attack(Usr_input):
 # User Command function
 def usr_commands(Usr_input):
     match Usr_input.lower():
-        case "show_stats":
+        case "show_stats" | "status" | "s":
             return show_stats()
-        case "show_commands":
+        case "show_commands" | "help" | "h":
             return show_commands()
-        case "attack":
+        case "attack" | "a":
             return attack()
-        case "pass_turn":
-            return pass_turn()
+        case "pass_turn" | "p":
+            return ""
         case _:
             return ""
 
 # Monster Functions
 def Slime():
-    print("You encounterd a Slime.")
     global Vit
-    global Slime_Vit
     global Exp
-    while Slime_Vit > 0:
+    global Slime_vit
+    global Usr_attack
+    while Slime_vit > 0 and Vit > 0:
+        Slam = random.randint(1, 3)
+        usr_name()
+        print("You encounterd a Slime.\n")
         Usr_input = input("What do you do: ")
-        usr_commands(Usr_input)
-        if Usr_input in ["attack", "pass_turn"]:
+        if Usr_input.lower() == "attack":
+            usr_commands(Usr_input)
+            Vit -= Slam
+            Slime_vit -= Usr_attack
+            print(f"Slime used slam.\nSlam did {Slam} damage.")
+            time.sleep(1)
+            print(f"You did {Usr_attack} in damage.")
+            Usr_attack = 0
             key = readchar.readchar()
-            Slam = Vit - 2
-            print("Slime used slam.")
+        elif Usr_input.lower() == "pass_turn":
+            Vit -= Slam
+            print(f"Slime used slam.\nSlam did {Slam} damage.")
+            print(f"You did {Usr_attack} in damage.")
             key = readchar.readchar()
         else:
+            usr_commands(Usr_input)
+            key = readchar.readchar()
             pass
-    Exp = Exp + 3
+    if Vit < 1:
+        print("You died.")
+        key = readchar.readchar()
+        Slime_vit = 10
+    else:
+        Exp = Exp + 3
+        Slime_vit = 10
+        print(f"Congradulations you beat the slime.\n\nYou gained 3 Exp.")
+        key = readchar.readchar()
 
 # Monster encounter List
 #Monster_encounter = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad, Rest]
@@ -119,49 +141,43 @@ while Confirmed != "y":
     usr_name()
     print("You will not be able to change your name later.\n")
     Usr_name = input("What is your name: ")
-    Answer = input(f"Is your name {Usr_name}? y/n: ")
-    Confirmed = usr_answer(Answer)
+    Usr_input = input(f"Is your name {Usr_name}? y/n: ")
+    Confirmed = usr_answer(Usr_input)
 usr_name()
 print("Welcome to to the world.")
 key = readchar.readchar()
 Confirmed = ""
 while Confirmed not in ["y", "n"]:
     usr_name()
-    Answer = input("Are you a Monster_Creature? y/n: ")
-    Confirmed = usr_answer(Answer)
+    Usr_input = input("Are you a Monster_Creature? y/n: ")
+    Confirmed = usr_answer(Usr_input)
 Looper = True
 if Confirmed == "y":
     while Looper:
-        Usr_race = ""
         usr_name()
         # Monster Creater Race Selection
         print("Are you a Orc, Slime, Dulahan, Spider, Oger, Goblin, Dryad,\n"
             "Werebeast(Has sub-race'incomplete'), or Dragon(Not recomended for first play-through.)")
-        Usr_race = input("What are you: ")
-        match Usr_race:
-            case "Orc" | "orc":
-                Usr_race = "Orc"
+        Usr_input = input("What are you: ").strip().capitalize()
+        match Usr_input:
+            case "Orc" | "Slime" | "Dulahan" | "Spider" | "Oger" | "Goblin" | "Dryad" | "Werebeast" | "Dragon":
+                Usr_race = Usr_input
                 Looper = False
-            case "Slime" | "slime":
-                Usr_race = "Slime"
-                Looper = False
-            case "Dulahan" |"dulahan":
-                Usr_race = "Dulahan"
-                Looper = False
-            case "Spider" | "spider":
-                Usr_race = "Spider"
-                Looper = False
-            case "Oger" | "oger":
-                Usr_race = "Oger"
-                Looper = False
-            case "Werebeast" | "werebeast":
-                Usr_race = "Werebeast"
-                Looper = False
-            case "Goblin" | "goblin":
-                Usr_race = "Goblin"
-                Looper = False
-            case "Dragon" | "dragon":
-                Usr_race = "Dragon"
+            case _:
+                print(f"{Usr_race} is not a valid selection.")
+                Looper = True
+
+elif Confirmed == "n":
+    while Looper:
+        usr_name()
+        print("Sorry not implemented yet.\nContinuing with monsters.\n\n")
+        # Monster Creater Race Selection
+        print("Are you a Orc, Slime, Dulahan, Spider, Oger, Goblin, Dryad,\n"
+            "Werebeast(Has sub-race'incomplete'), or Dragon(Not recomended for first play-through.)")
+        Usr_input = input("What are you: ").strip().capitalize()
+        match Usr_input:
+            case "Orc" | "slime" | "Dulahan" | "Spider" | "Oger" | "Goblin" | "Dryad" | "Werebeast" | "Dragon":
+                Usr_race = Usr_input
                 Looper = False
             case _:
                 print(f"{Usr_race} is not a valid selection.")
@@ -186,8 +202,23 @@ usr_name()
 print("Now let's try combat.")
 key = readchar.readchar()
 
-def first_combat():
-    slime()
+# First Combat
+Slime()
 
+Confirmed = "y"
 usr_name()
-key = readchar.readchar()
+print("Thanks for playing the demo.")
+while Confirmed == "y":
+    Usr_input = input("Would you like to do combat again with new stats: ")
+    Confirmed = usr_answer(Usr_input)
+    if Confirmed == "y":
+
+        Vit = random.randint(6, 12)
+        Dex = random.randint(3,5)
+        Agil = random.randint(3,5)
+        Str = random.randint(3,5)
+        Mp = random.randint(3,5)
+
+        Slime()
+    elif Confirmed == "n":
+        break
