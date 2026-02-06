@@ -59,7 +59,7 @@ def show_stats():
 # Help function
 def show_commands():
     print("show_commands--Shows all user commands.")
-    print("show_stats--Shows stat values.")
+    print("show_stats--Shows stat values. 'Stats are randomized.'")
 
 # User Command function
 def usr_commands(Usr_input):
@@ -156,6 +156,8 @@ while Usr_input != "Done":
 usr_name()
 print("Now let's try combat.")
 key = readchar.readchar()
+
+
 
 usr_name()
 key = readchar.readchar()
