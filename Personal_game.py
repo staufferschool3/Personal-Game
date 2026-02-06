@@ -14,11 +14,15 @@ Usr_race = ""
 Usr_input = ""
 
 # User stat variables
-Constitution = 0
-Dexterity = 0
-Agility = 0
-Strength = 0
-Mana = 0
+Vit = 0
+Dex = 0
+Agil = 0
+Str = 0
+Mp = 0
+
+# Monster Stats
+#   Slime
+Slime_Vit = 10
 
 # Clear screen
 def clear():
@@ -44,25 +48,37 @@ def usr_name():
 # Show stats function
 def show_stats():
     print(f"\n--- {Usr_name}'s Current Stats ---")
-    print(f"Constitution: {Constitution}")
-    print(f"Dexterity:    {Dexterity}")
-    print(f"Agility:      {Agility}")
-    print(f"Strength:     {Strength}")
-    print(f"Mana:         {Mana}")
+    print(f"Vitality:     {Vit}")
+    print(f"Dexterity:    {Dex}")
+    print(f"Agility:      {Agil}")
+    print(f"Strength:     {Str}")
+    print(f"Mana:         {Mp}")
     print("---------------------------------")
     return "" # Return empty so 'None' doesn't print
 
-
-
+# Help function
+def show_commands():
+    print("show_commands--Shows all user commands.")
+    print("show_stats--Shows stat values.")
 
 # User Command function
 def usr_commands(Usr_input):
     match Usr_input.lower():
         case "show_stats":
             return show_stats()
+        case "show_commands":
+            return show_commands()
         case _:
             return ""
 
+# Monster Functions
+def Slime():
+    global Vit
+    while Slime_Vit > 0:
+        Slam = Vit - 2
+
+# Monster List
+#Monster = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad]
 
 # Main code
 usr_name()
@@ -90,7 +106,7 @@ if Confirmed == "y":
         Usr_race = ""
         usr_name()
         # Monster Creater Race Selection
-        print("Are you a Orc, Slime, Dulahan, Spider, Oger, Goblin\n"
+        print("Are you a Orc, Slime, Dulahan, Spider, Oger, Goblin, Dryad,\n"
             "Werebeast(Has sub-race'incomplete'), or Dragon(Not recomended for first play-through.)")
         Usr_race = input("What are you: ")
         match Usr_race:
@@ -123,9 +139,19 @@ if Confirmed == "y":
                 Looper = True
 
 usr_name()
-Usr_input = input("Great!! Now to look at Your stats.\n\n Type 'show_stats': ")
+Usr_input = input("Great!! Now to look at see command list.\n\n Type 'show_commands': ")
 usr_commands(Usr_input)
 key = readchar.readchar()
+
+while Usr_input != "Done":
+    usr_name()
+    Usr_input = input("Great!! Now test the commands to see what they do.\n"
+        "Type 'Done' when finished: ")
+    if Usr_input == "Done":
+        pass
+    else:
+        usr_commands(Usr_input)
+        key = readchar.readchar()
 
 usr_name()
 print("Now let's try combat.")
