@@ -9,117 +9,127 @@ import readchar
 import random
 import sys
 
-# Player class system
-class Player:
-    def __init__(self, User_name, User_race):
-        self.name = User_name
-        self.race = User_race
-        self.level = 1
-        self.Exp = 0
-        self.Max_exp = 15
-
-        #Player stats
-        self.Vit = random.randint(6, 12)
-        self.Dex = random.randint(3,5)
-        self.Agil = random.randint(3,5)
-        self.Str = random.randint(3,5)
-        self.Mp = random.randint(3,5)
-
 # Variable for later use
-User_name = ""
-User_race = ""
-User_input = ""
-User_attack = 0
 Weapon = 0
 Confirmed = ""
-Enemy = User_name
+Enemy = Player.name
 
-# Clear screen
-def clear():
-    os.system("cls" if os.name == "nt" else "clear")
+# Player class system
+class Player:
+    # Player info
+    def __init__(self, Name, Race):
+        self.name = Name
+        self.race = Race
+        self.level = 1
+        self.exp = 0
+        self.max_exp = 15
+        self.skill_points = 0
+        self.input = ""
 
-# Clear screen and place name at top of screen
-def user_name():
-    clear()
-    print(f"\n\nRace: {User_race}  Name: {User_name}  Level: {User_level}  Exp: {Exp}\n\n\n")
+        # Player stats
+        self.vit = random.randint(6, 12)
+        self.dex = random.randint(3,5)
+        self.agi = random.randint(3,5)
+        self.str = random.randint(3,5)
+        self.man = random.randint(3,5)
 
-# User yes or no input
-def user_answer(User_input):
-    match User_input:
-        case "yes" | "Yes" | "YES" | "y" | "Y":
-            return "y"
-        case "no" | "No" | "NO" | "n" | "N":
-            return "n"
-        case _:
-            print(User_input, "is not a valid answer. Please use yes or no.\nPress button.")
+    # User Dies
+    def died(self):
+        print("You died.")
+        key = readchar.readchar()
+
+    # Player takes damage
+    def damage(self):
+        self.vit -= Enemy_str
+        if self.vit <= 0:
+            self.vit = 0
+            self.died()
+
+    # Player leveling
+    def check_level(self):
+        if self.exp >= self.max_exp:
+            self.level += 1
+            self.exp -= self.max_exp
+            self.max_exp *= 1.5
+            self.skill_points += 3
+            print(f"Level Up! You are now {self.level}")
+
+    # User yes or no input
+    def answer(self.input):
+        match self.input:
+            case "yes" | "Yes" | "YES" | "y" | "Y":
+                return "y"
+            case "no" | "No" | "NO" | "n" | "N":
+                return "n"
+            case _:
+                print(f"{self.input} is not a valid answer. Please use yes or no.\nPress button.")
+                key = readchar.readchar()
+                return ""
+
+    # User Command function
+    def commands(self.input):
+        match self.input.lower():
+            case "help" | "h":
+                return self.help()
+            case "status" | "s":
+                return self.status()
+            case "attack" | "a":
+                return self.attack()
+            case "submit":
+                return self.submit(Enemy)
+            case "passturn" | "p":
+                return ""
+            case _:
+                return ""
+
+    # Help function
+    def help(self):
+        print("\n\nhelp--Shows all user commands.")
+        print("status--Shows stat values. 'Stats are randomized.'")
+        print("attack--Attacks the enemy.")
+        print("defend--Defends against enemy.")
+        print("submit--You submit to your death.")
+        print("passturn--Passes your turn.")
+
+    # Show stats function
+    def status(self):
+        print(f"\n--- {self.name}'s Current Stats ---")
+        print(f"Vitality:     {self.vit}")
+        print(f"Dexterity:    {self.dex}")
+        print(f"Agility:      {self.agi}")
+        print(f"Strength:     {self.str}")
+        print(f"Mana:         {self.man}")
+        print("---------------------------------")
+        return ""
+
+    # Attack
+    def attack(self.str):
+        self.attack
+        self.attack = self.str + Weapon
+
+    # Submit
+    def submit(ClassEnemy):
+        self.vit
+        if Enemy == self.name:
+            self.vit = 0
+            print("You couldn't ake it any more and succumbed to some wolves.")
+            self.died()
             key = readchar.readchar()
-            return ""
+            sys.exit()
+        else:
+            Vit = 0
+            print(f"{Enemy} took you for all you had.")
+            key = readchar.readchar()
+            self.died()
+            sys.exit()
 
-# User Dies
-def user_died():
-    print("You died.")
-    key = readchar.readchar()
-
-# User Command function
-def user_commands(User_input):
-    match User_input.lower():
-        case "help" | "h":
-            return help()
-        case "status" | "s":
-            return status()
-        case "attack" | "a":
-            return attack()
-        case "submit":
-            return submit(Enemy)
-        case "passturn" | "p":
-            return ""
-        case _:
-            return ""
-
-# Help function
-def help():
-    print("\n\nhelp--Shows all user commands.")
-    print("status--Shows stat values. 'Stats are randomized.'")
-    print("attack--Attacks the enemy.")
-    print("defend--Defends against enemy.")
-    print("submit--You submit to your death.")
-    print("passturn--Passes your turn.")
-
-# Show stats function
-def status():
-    print(f"\n--- {User_name}'s Current Stats ---")
-    print(f"Vitality:     {Vit}")
-    print(f"Dexterity:    {Dex}")
-    print(f"Agility:      {Agil}")
-    print(f"Strength:     {Str}")
-    print(f"Mana:         {Mp}")
-    print("---------------------------------")
-    return "" # Return empty so 'None' doesn't print
-
-# Attack
-def attack():
-    global User_attack
-    User_attack = Str + Weapon
-
-# Submit
-def submit(Enemy):
-    global Vit
-    if Enemy == User_name:
-        Vit = 0
-        print("You couldn't ake it any more and succumbed to some wolves.")
-        user_died()
-        key = readchar.readchar()
-        sys.exit()
-    else:
-        Vit = 0
-        print(f"{Enemy} took you for all you had.")
-        key = readchar.readchar()
-        user_died()
-        sys.exit()
-
-# Monster encounter List
-#Monster_encounter = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad, Rest]
-#Rand_encounter = [8, 15, 5, 9, 5, 12, 3, 1, 2, 40]
+    # Clear screen and place name at top of screen
+    def hud(self):
+        # Clear screen
+        def clear():
+            os.system("cls" if os.name == "nt" else "clear")
+        clear()
+        print(f"\n\nRace: {self.race}  Name: {self.name}  Level: {self.level}  Exp: {self.exp}\n\n\n")
 
 # Enemy class
 class ClassEnemy:
@@ -131,46 +141,45 @@ class ClassEnemy:
         self.enemy_str = Enemy_str
 
     # Combat phase
-    def combat(self):
-        global Vit
-        global Exp
-        global User_attack
-        global Enemy
-        global User_name
+    def combat(self, Player):
         Enemy = self.enemy_name
         print(f"{self.enemy_name} {self.enemy_race} has approched.")
         while self.enemy_vit > 0 and Vit > 0:
             user_name()
             print(f"{self.enemy_name} {self.enemy_race}")
-            User_input = input("What do you do: ")
-            if User_input.lower() == "attack":
-                user_commands(User_input)
-                Vit -= self.enemy_str
-                self.enemy_vit -= User_attack
+            Player.input = input("What do you do: ")
+            if Player.input.lower() == "attack":
+                Player.commands(Player.input)
+                Player.vit -= self.enemy_str
+                self.enemy_vit -= Player.attack
                 print(f"{self.enemy_name}{self.enemy_race} used {self.enemy_attackName}.")
                 time.sleep(1)
                 print(f"{self.enemy_attackName} did {self.enemy_str} damage.")
                 time.sleep(1)
-                print(f"You did {User_attack} in damage.")
-                User_attack = 0
+                print(f"You did {Player.attack} in damage.")
+                Player.attack = 0
                 key = readchar.readchar()
-            elif User_input.lower() == "pass_turn":
-                Vit -= self.enemy_str
+            elif Player.input.lower() == "pass_turn":
+                Player.vit -= self.enemy_str
                 print(f"{self.enemy_name}{self.enemy_race} used {self.enemy_attackName}.\n{self.enemy_attackName} did {self.enemy_str} damage.")
-                print(f"You did {User_attack} in damage.")
+                print(f"You did {Player.attack} in damage.")
                 key = readchar.readchar()
             else:
-                user_commands(User_input)
+                Player.commands(Player.input)
                 key = readchar.readchar()
                 pass
-        Enemy = User_name
-        if Vit < 1:
-            user_died()
+        Enemy = Player.name
+        if Player.vit < 1:
+            Player.died()
         else:
             time.sleep(1)
             Exp = Exp + 3
             print(f"Congradulations you beat the {self.enemy_name} {self.enemy_race}.\n\nYou gained 3 Exp.")
             key = readchar.readchar()
+
+# Monster encounter List
+#Monster_encounter = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad, Rest]
+#Rand_encounter = [8, 15, 5, 9, 5, 12, 3, 1, 2, 40]
 
 # Monster Functions
 def starter_slime():
