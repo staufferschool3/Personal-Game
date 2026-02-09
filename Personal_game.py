@@ -29,8 +29,6 @@ class Player:
         self.str = random.randint(3,5)
         self.man = random.randint(3,5)
 
-    #def equiped(self):
-
     # User Dies
     def died(self):
         print("\nYou died.")
@@ -54,7 +52,7 @@ class Player:
 
     # User yes or no input
     def answer(self):
-        match self.input:
+        match self.input.strip():
             case "yes" | "Yes" | "YES" | "y" | "Y":
                 return "y"
             case "no" | "No" | "NO" | "n" | "N":
@@ -65,7 +63,7 @@ class Player:
 
     # User Command function
     def commands(self, Current_enemy=None):
-        match self.input.lower():
+        match self.input.lower().strip():
             case "help" | "h":
                 return self.help()
             case "status" | "s":
@@ -103,7 +101,7 @@ class Player:
 
     # Attack
     def attack(self, Current_enemy):
-        self.atk_power = self.str #+ Weapon
+        self.atk_power = self.str + self.equiped
         if Current_enemy == None:
             if self.equiped == None:
                 print(f"\nYou swing your hands at the air like a moron.")
@@ -191,7 +189,7 @@ class Enemy:
 
 # Monster encounter List
 #Monster_encounter = [Orc, Slime, Dulahan, Spider, Oger, Goblin, Werebeast, Dragon, Dryad, Rest]
-#Rand_encounter = [8, 15, 5, 9, 5, 12, 3, 1, 2, 40]
+#Encounter_rand = [8, 15, 5, 9, 5, 12, 3, 1, 2, 40]
 
 # Monster Functions
 def starter_slime(User):
@@ -199,7 +197,7 @@ def starter_slime(User):
     Slime.combat(User)
 
 # ---------------------Main code-------------------------
-#Player instance
+# Player instance
 User = Player()
 
 # Get username
@@ -211,7 +209,7 @@ while Confirmed != "y":
     User.hud()
     print("You will not be able to change your name later.\n")
     Name = input("What is your name: ")
-    User.name = Name.capitalize()
+    User.name = Name.capitalize().strip()
     User.input = input(f"Is your name {User.name}? y/n: ")
     Confirmed = User.answer()
 User.hud()
