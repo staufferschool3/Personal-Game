@@ -1,0 +1,36 @@
+{
+	"Slime": {
+		"Status": {
+			"Vit": 1,
+			"Str": 1,
+			"Agi": 1,
+			"Dex": 1,
+			"Int": 0
+		},
+		"Status_ailments": {
+			"Poison": 0,
+			"Bleed": 0,
+			"Tetnus": 0,
+			"Paralysis": 0
+		},
+		"Inventory": {}
+	},
+	"Goblin": {
+		"Status": {
+			"Vit": 1,
+			"Str": 1,
+			"Agi": 1,
+			"Dex": 1,
+			"Int": 0
+		},
+		"Status_ailments": {
+			"Poison": 0,
+			"Bleed": 0,
+			"Tetnus": 0,
+			"Paralysis": 0
+		},
+		"Inventory": {
+			"Rusty_sword": 1
+		}
+	}
+}
