@@ -1,0 +1,31 @@
+{
+	"Map": { 	
+		"Spawn_location": {
+			"Alnari": {
+				"Angel": "Angavilon",
+				"Human": "Lionia",
+				"High Elf": "Avilon",
+				"Dwarf": "Dwargethia",
+				"Wood Elf": "Alenwood",
+				"Beastman": "Nekomainu",
+				"Halfling": "Oakwood"
+			},
+			"Monsters": {
+				"Demon": "Dementhia"
+			}
+		},
+		"World Map": {
+			"Avilon": ["Coastal"],
+			"Alenwood": ["Forest"],
+			"Angavilon": ["Sky Island"],
+			"Lionia": ["Plains"],
+			"Dwargethia": ["Mountain"],
+			"Nekomainu": ["Jagged Peaks"],
+			"Oakwood": ["Rolling Plains"],
+			"Dementhia": ["Jagged Peaks","Volcanic"]
+		},
+		"World Travel":{
+			"Angavilon": ["Oakwood", "Nekomainu", "Dwargethia", "Lionia", "Alenwood", "Avilon"]
+		}
+	}
+}	

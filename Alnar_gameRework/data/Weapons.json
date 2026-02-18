@@ -1,0 +1,19 @@
+{
+    "Rusty_sword": {
+        "Dmg": 4,
+        "Speed": 1,
+        "Slow": -4
+    },
+    "Short_sword": {
+        "Dmg": 6,
+        "Speed": 3
+    },
+    "Sword": {
+        "Dmg": 8,
+        "Speed": 1
+    },
+    "Long_sword": {
+        "Dmg": 10,
+        "Speed": -2
+    }
+}
